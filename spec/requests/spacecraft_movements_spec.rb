@@ -256,4 +256,28 @@ RSpec.describe SpacecraftMovementsController do
     end
   end
 
+  describe '#execute_commands' do
+    it 'executes a sequence of commands and returns the correct JSON response' do
+      controller.send(:set_initial_state)
+
+      commands = ['f', 'r', 'u', 'b', 'l']
+      expected_response = {
+        phases: [
+          { command: 'f', position: { x: 0, y: 1, z: 0 }, direction: 'N' },
+          { command: 'r', position: { x: 0, y: 1, z: 0 }, direction: 'E' },
+          { command: 'u', position: { x: 0, y: 1, z: 0 }, direction: 'Up' },
+          { command: 'b', position: { x: 0, y: 1, z: -1 }, direction: 'Up' },
+          { command: 'l', position: { x: 0, y: 1, z: -1 }, direction: 'N' }
+        ],
+        final_position: { x: 0, y: 1, z: -1 },
+        final_direction: 'N'
+      }
+
+      controller.params = { commands: commands }
+      controller.send(:execute_commands)
+
+      expect(response.body).to eq(expected_response.to_json)
+    end
+  end
+
 end
