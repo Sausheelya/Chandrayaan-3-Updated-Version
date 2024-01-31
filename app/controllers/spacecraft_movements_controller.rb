@@ -71,3 +71,10 @@ private
   end
 end
 
+def turn_up
+    @direction = case @direction
+                 when 'N' then 'Up'
+                 when 'S' then 'Down'
+                 else @direction
+                 end
+  end
