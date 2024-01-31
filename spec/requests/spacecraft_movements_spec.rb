@@ -161,4 +161,50 @@ RSpec.describe SpacecraftMovementsController do
 
   end
 
+  #Test cases for turn right
+
+  describe '#turn_right' do
+    it 'turns right from North to East' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'N')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('E')
+    end
+
+    it 'turns right from East to South' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'E')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('S')
+    end
+
+    it 'turns right from South to West' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'S')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('W')
+    end
+
+    it 'turns right from West to North' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'W')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('N')
+    end
+
+    it 'turns right from Up to East' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'Up')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('E')
+    end
+
+    it 'turns right from Down to West' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'Down')
+      controller.send(:turn_right)
+      expect(controller.instance_variable_get(:@direction)).to eq('W')
+    end
+  end
+
 end
