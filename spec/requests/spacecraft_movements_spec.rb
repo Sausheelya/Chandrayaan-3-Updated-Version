@@ -103,11 +103,9 @@ RSpec.describe SpacecraftMovementsController do
   end
 
   #Test Cases for turn Left
-  
-RSpec.describe SpacecraftMovementsController do
-  let(:controller) { SpacecraftMovementsController.new }
 
-  describe '#turn_left' do
+
+   describe '#turn_left' do
     context 'when initially facing North' do
       it 'turns left to face West' do
         controller.send(:set_initial_state)
@@ -162,6 +160,5 @@ RSpec.describe SpacecraftMovementsController do
     end
 
   end
-end
 
 end

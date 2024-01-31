@@ -42,5 +42,20 @@ private
       @position[:z] -= 1
     end
   end
+
+  def turn_left
+    case @direction
+    when 'N'
+      @direction = 'W'
+    when 'S'
+      @direction = 'E'
+    when 'E'
+      @direction = 'N'
+    when 'W'
+      @direction = 'S'
+    when 'Up', 'Down'
+      # No change in direction when facing Up or Down
+    end
+  end
 end
 
