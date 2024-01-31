@@ -57,5 +57,17 @@ private
       # No change in direction when facing Up or Down
     end
   end
+  
+  def turn_right
+    @direction = case @direction
+                 when 'N' then 'E'
+                 when 'E' then 'S'
+                 when 'S' then 'W'
+                 when 'W' then 'N'
+                 when 'Up' then 'E'
+                 when 'Down' then 'W'
+                 else @direction
+                 end
+  end
 end
 
