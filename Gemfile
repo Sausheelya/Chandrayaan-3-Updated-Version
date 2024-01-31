@@ -15,6 +15,10 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
+group :test do
+  gem 'simplecov', require: false
+end
+
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
