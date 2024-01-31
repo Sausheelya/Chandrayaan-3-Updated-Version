@@ -232,4 +232,28 @@ RSpec.describe SpacecraftMovementsController do
     end
   end
 
+  #Test cases for turn down
+  describe '#turn_down' do
+    it 'turns down from North to Down' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'N')
+      controller.send(:turn_down)
+      expect(controller.instance_variable_get(:@direction)).to eq('Down')
+    end
+
+    it 'turns down from South to Up' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'S')
+      controller.send(:turn_down)
+      expect(controller.instance_variable_get(:@direction)).to eq('Up')
+    end
+
+    it 'does not change direction when already facing Down' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'Down')
+      controller.send(:turn_down)
+      expect(controller.instance_variable_get(:@direction)).to eq('Down')
+    end
+  end
+
 end
