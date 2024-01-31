@@ -56,7 +56,7 @@ RSpec.describe SpacecraftMovementsController do
       expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 1 })
     end
   end
-  
+
   # Test Cases for move backward method
   describe '#move_backward' do
     it 'moves backward in the correct direction (North)' do
@@ -101,4 +101,67 @@ RSpec.describe SpacecraftMovementsController do
       expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: -1 })
     end
   end
+
+  #Test Cases for turn Left
+  
+RSpec.describe SpacecraftMovementsController do
+  let(:controller) { SpacecraftMovementsController.new }
+
+  describe '#turn_left' do
+    context 'when initially facing North' do
+      it 'turns left to face West' do
+        controller.send(:set_initial_state)
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('W')
+      end
+    end
+
+    context 'when initially facing South' do
+      it 'turns left to face East' do
+        controller.send(:set_initial_state)
+        controller.instance_variable_set(:@direction, 'S')
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('E')
+      end
+    end
+
+    context 'when initially facing East' do
+      it 'turns left to face North' do
+        controller.send(:set_initial_state)
+        controller.instance_variable_set(:@direction, 'E')
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('N')
+      end
+    end
+
+    context 'when initially facing West' do
+      it 'turns left to face South' do
+        controller.send(:set_initial_state)
+        controller.instance_variable_set(:@direction, 'W')
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('S')
+      end
+    end
+
+    context 'when initially facing Up' do
+      it 'does not change the direction when turning left' do
+        controller.send(:set_initial_state)
+        controller.instance_variable_set(:@direction, 'Up')
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('Up')
+      end
+    end
+
+    context 'when initially facing Down' do
+      it 'does not change the direction when turning left' do
+        controller.send(:set_initial_state)
+        controller.instance_variable_set(:@direction, 'Down')
+        controller.send(:turn_left)
+        expect(controller.instance_variable_get(:@direction)).to eq('Down')
+      end
+    end
+
+  end
+end
+
 end
