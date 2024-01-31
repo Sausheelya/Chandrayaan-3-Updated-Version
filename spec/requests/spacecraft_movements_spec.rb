@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SpacecraftMovementsController do
   let(:controller) { SpacecraftMovementsController.new }
-
+#Test cases for the initialization
   describe '#set_initial_state' do
     it 'initializes the spacecraft controller with default values' do
       controller.send(:set_initial_state)
@@ -10,6 +10,8 @@ RSpec.describe SpacecraftMovementsController do
       expect(controller.instance_variable_get(:@direction)).to eq('N')
     end
   end
+
+  #Test cases for the move_forward method
 
   describe '#move_forward' do
     it 'moves forward in the correct direction (North)' do
@@ -52,6 +54,51 @@ RSpec.describe SpacecraftMovementsController do
       controller.instance_variable_set(:@direction, 'Down')
       controller.send(:move_forward)
       expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 1 })
+    end
+  end
+  
+  # Test Cases for move backward method
+  describe '#move_backward' do
+    it 'moves backward in the correct direction (North)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'N')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: -1, z: 0 })
+    end
+
+    it 'moves backward in the correct direction (South)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'S')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 1, z: 0 })
+    end
+
+    it 'moves backward in the correct direction (East)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'E')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: -1, y: 0, z: 0 })
+    end
+
+    it 'moves backward in the correct direction (West)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'W')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 1, y: 0, z: 0 })
+    end
+
+    it 'moves backward in the correct direction (Up)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'Up')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 1 })
+    end
+
+    it 'moves backward in the correct direction (Down)' do
+      controller.send(:set_initial_state)
+      controller.instance_variable_set(:@direction, 'Down')
+      controller.send(:move_backward)
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: -1 })
     end
   end
 end

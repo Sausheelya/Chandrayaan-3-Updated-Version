@@ -25,5 +25,22 @@ private
       @position[:z] += 1
     end
   end
+
+  def move_backward
+    case @direction
+    when 'N'
+      @position[:y] -= 1
+    when 'S'
+      @position[:y] += 1
+    when 'E'
+      @position[:x] -= 1
+    when 'W'
+      @position[:x] += 1
+    when 'Up'
+      @position[:z] += 1
+    when 'Down'
+      @position[:z] -= 1
+    end
+  end
 end
 
