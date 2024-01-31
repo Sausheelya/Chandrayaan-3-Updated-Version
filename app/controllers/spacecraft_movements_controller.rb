@@ -1,6 +1,7 @@
 class SpacecraftMovementsController < ApplicationController
 
-	def execute_commands
+def execute_commands
+	set_initial_state
   commands = params[:commands]
 
   phases = []
@@ -66,9 +67,9 @@ private
     when 'W'
       @position[:x] += 1
     when 'Up'
-      @position[:z] += 1
-    when 'Down'
       @position[:z] -= 1
+    when 'Down'
+      @position[:z] += 1
     end
   end
 
@@ -102,17 +103,14 @@ end
 
 def turn_up
     @direction = case @direction
-                 when 'N' then 'Up'
-                 when 'S' then 'Down'
-                 else @direction
-                 end
+                     when 'N', 'S', 'E', 'W' then 'Up'
+                     else @direction
+                     end
   end
 
-
     def turn_down
-    @direction = case @direction
-                 when 'N' then 'Down'
-                 when 'S' then 'Up'
-                 else @direction
-                 end
+      @direction = case @direction
+                     when 'N', 'S', 'E', 'W' then 'Down'
+                     else @direction
+                     end
   end

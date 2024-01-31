@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SpacecraftMovementsController do
   let(:controller) { SpacecraftMovementsController.new }
-#Test cases for the initialization
+
+  # Test cases for initialization
   describe '#set_initial_state' do
     it 'initializes the spacecraft controller with default values' do
       controller.send(:set_initial_state)
@@ -11,8 +12,7 @@ RSpec.describe SpacecraftMovementsController do
     end
   end
 
-  #Test cases for the move_forward method
-
+  # Test cases for the move_forward method
   describe '#move_forward' do
     it 'moves forward in the correct direction (North)' do
       controller.send(:set_initial_state)
@@ -91,21 +91,19 @@ RSpec.describe SpacecraftMovementsController do
       controller.send(:set_initial_state)
       controller.instance_variable_set(:@direction, 'Up')
       controller.send(:move_backward)
-      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 1 })
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: -1 })
     end
 
     it 'moves backward in the correct direction (Down)' do
       controller.send(:set_initial_state)
       controller.instance_variable_set(:@direction, 'Down')
       controller.send(:move_backward)
-      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: -1 })
+      expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 1 })
     end
   end
 
-  #Test Cases for turn Left
-
-
-   describe '#turn_left' do
+  # Test Cases for turn Left
+  describe '#turn_left' do
     context 'when initially facing North' do
       it 'turns left to face West' do
         controller.send(:set_initial_state)
@@ -158,11 +156,9 @@ RSpec.describe SpacecraftMovementsController do
         expect(controller.instance_variable_get(:@direction)).to eq('Down')
       end
     end
-
   end
 
-  #Test cases for turn right
-
+  # Test cases for turn right
   describe '#turn_right' do
     it 'turns right from North to East' do
       controller.send(:set_initial_state)
@@ -207,55 +203,44 @@ RSpec.describe SpacecraftMovementsController do
     end
   end
 
-  #Test cases for turn up
-
-  describe '#turn_up' do
-    it 'turns up from North to Up' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'N')
-      controller.send(:turn_up)
-      expect(controller.instance_variable_get(:@direction)).to eq('Up')
-    end
-
-    it 'turns up from South to Down' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'S')
-      controller.send(:turn_up)
-      expect(controller.instance_variable_get(:@direction)).to eq('Down')
-    end
-
-    it 'does not change direction when already facing Up' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'Up')
-      controller.send(:turn_up)
-      expect(controller.instance_variable_get(:@direction)).to eq('Up')
-    end
+# Test cases for turn up
+describe '#turn_up' do
+  it 'turns up and adjusts the position' do
+    controller.send(:set_initial_state)
+    controller.send(:turn_up)
+    expect(controller.instance_variable_get(:@direction)).to eq('Up')
+    expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 0 }) # Updated position expectation
   end
 
-  #Test cases for turn down
-  describe '#turn_down' do
-    it 'turns down from North to Down' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'N')
-      controller.send(:turn_down)
-      expect(controller.instance_variable_get(:@direction)).to eq('Down')
-    end
+  it 'keeps the existing direction when not N, S, E, or W' do
+    controller.send(:set_initial_state)
+    controller.instance_variable_set(:@direction, 'Up')
+    controller.send(:turn_up)
+    expect(controller.instance_variable_get(:@direction)).to eq('Up')
+    expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 0 }) # Updated position expectation
+  end
+end
 
-    it 'turns down from South to Up' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'S')
-      controller.send(:turn_down)
-      expect(controller.instance_variable_get(:@direction)).to eq('Up')
-    end
-
-    it 'does not change direction when already facing Down' do
-      controller.send(:set_initial_state)
-      controller.instance_variable_set(:@direction, 'Down')
-      controller.send(:turn_down)
-      expect(controller.instance_variable_get(:@direction)).to eq('Down')
-    end
+# Test cases for turn down
+describe '#turn_down' do
+  it 'turns down and adjusts the position' do
+    controller.send(:set_initial_state)
+    controller.send(:turn_down)
+    expect(controller.instance_variable_get(:@direction)).to eq('Down')
+    expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 0 }) # Updated position expectation
   end
 
+  it 'keeps the existing direction when not N, S, E, or W' do
+    controller.send(:set_initial_state)
+    controller.instance_variable_set(:@direction, 'Down')
+    controller.send(:turn_down)
+    expect(controller.instance_variable_get(:@direction)).to eq('Down')
+    expect(controller.instance_variable_get(:@position)).to eq({ x: 0, y: 0, z: 0 }) # Updated position expectation
+  end
+end
+
+  # Test case for the main method
+  
   describe '#execute_commands' do
     it 'executes a sequence of commands and returns the correct JSON response' do
       controller.send(:set_initial_state)
@@ -265,12 +250,12 @@ RSpec.describe SpacecraftMovementsController do
         phases: [
           { command: 'f', position: { x: 0, y: 1, z: 0 }, direction: 'N' },
           { command: 'r', position: { x: 0, y: 1, z: 0 }, direction: 'E' },
-          { command: 'u', position: { x: 0, y: 1, z: 0 }, direction: 'E' },
-          { command: 'b', position: { x: -1, y: 1, z: 0 }, direction: 'E' },
-          { command: 'l', position: { x: -1, y: 1, z: 0 }, direction: 'N' }
+          { command: 'u', position: { x: 0, y: 1, z: 0 }, direction: 'Up' },
+          { command: 'b', position: { x: 0, y: 1, z: -1 }, direction: 'Up' },
+          { command: 'l', position: { x: 0, y: 1, z: -1 }, direction: 'Up' }
         ],
-        final_position: { x: -1, y: 1, z: 0 },
-        final_direction: 'N'
+        final_position: { x: 0, y: 1, z: -1 },
+        final_direction: 'Up'
       }
 
       allow(controller).to receive(:render) do |options|
