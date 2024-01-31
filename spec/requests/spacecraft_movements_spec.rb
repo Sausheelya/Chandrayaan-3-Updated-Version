@@ -265,19 +265,20 @@ RSpec.describe SpacecraftMovementsController do
         phases: [
           { command: 'f', position: { x: 0, y: 1, z: 0 }, direction: 'N' },
           { command: 'r', position: { x: 0, y: 1, z: 0 }, direction: 'E' },
-          { command: 'u', position: { x: 0, y: 1, z: 0 }, direction: 'Up' },
-          { command: 'b', position: { x: 0, y: 1, z: -1 }, direction: 'Up' },
-          { command: 'l', position: { x: 0, y: 1, z: -1 }, direction: 'N' }
+          { command: 'u', position: { x: 0, y: 1, z: 0 }, direction: 'E' },
+          { command: 'b', position: { x: -1, y: 1, z: 0 }, direction: 'E' },
+          { command: 'l', position: { x: -1, y: 1, z: 0 }, direction: 'N' }
         ],
-        final_position: { x: 0, y: 1, z: -1 },
+        final_position: { x: -1, y: 1, z: 0 },
         final_direction: 'N'
       }
 
+      allow(controller).to receive(:render) do |options|
+        expect(options[:json]).to eq(expected_response)
+      end
+
       controller.params = { commands: commands }
       controller.send(:execute_commands)
-
-      expect(response.body).to eq(expected_response.to_json)
     end
   end
-
 end

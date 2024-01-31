@@ -1,5 +1,34 @@
 class SpacecraftMovementsController < ApplicationController
 
+	def execute_commands
+  commands = params[:commands]
+
+  phases = []
+  
+  commands.each do |command|
+    case command
+    when 'f'
+      move_forward
+    when 'b'
+      move_backward
+    when 'l'
+      turn_left
+    when 'r'
+      turn_right
+    when 'u'
+      turn_up
+    when 'd'
+      turn_down
+    else
+      # Handle invalid command (optional)
+    end
+
+    phases << { command: command, position: @position.dup, direction: @direction }
+  end
+
+  render json: { phases: phases, final_position: @position, final_direction: @direction }
+end
+
 
 
 private
